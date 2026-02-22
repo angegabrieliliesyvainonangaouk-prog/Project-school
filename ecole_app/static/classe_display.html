@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<!objectif fare un tableau dont  chacune des classes sur l'horizontal correspond à une classe  de l'école>
+<header>
+    JP
+</header>
+<body>
+    <a href="/static/message_spent.html", border="3" style="display:flex;flex-direction:column;align-items:left;justify-content:top">Récapitulatif dépense</a>
+    <!Dans mon body il  y aura le tableau des classes de  l'école>
+    <table>
+        <!Je dis que je mets comme titre  à mon tableau nom des classe et ce titre et sur une ligne >
+        <tr>
+            <th>nom de la classe</th>
+              
+        </tr>
+        <!The tag  will  serve me is like variable is tbody>
+        <tbody id="liste_classes" style="Background:linear-gradient(  green 33%, yellow 33%, blue 34%)"></tbody>
+
+
+        
+    </table>
+    <script> 
+    //It is the javascript method , this is the function who is predefined by javascript ,  i needn't put the instruction
+        objectif=document.getElementById("liste_classes");
+        //j'aurai appliqué un évenement si le tableau n'était pas ficde car il dépend d'un api 
+        //mais le corps du tableau va subir une fonction 
+            async function chargerClasses(){//car c'est une fonction qu'on va réutiliser 
+                //récupération du token enrégistrés sur le front end 
+                // const token=localStorage.getItem("mon_token"); on en a plus besoin car  utilise unn cookie sécurisé
+                // je  n'ai rien à prendre du le front end à envoyé à part mon token que j'ai stocké 
+                const envoie= await fetch("/classe_display",
+                    {method:"GET",
+                      //headers:{"authorization":token}  inutile d'envoyer mon token par l'header comme ça car il est sur mon header sécurisé dans un cookies dans le navigateur
+                      credentials:"include"
+
+                });//i decided to send my token on header who is encoded by HTTPS 
+                     //reponse envoyé par le serveur 
+
+
+
+                     // aucune erreur levé donc il yaura probablement des erreurs 500
+
+                    const reponse = await envoie.json();
+                    //localStorage.setItem("ma_classe_id",reponse.classe_id);
+                    //pas besoin d'enregistrer un élément qui passe par l'url avec localStorage ou sessionStrorage il est déjà sauvegardé par l'url automatiquement 
+                    // Bonfor this few i get resgistered  the element by url , so to take the value in browsher memory i need use window.search function ? 
+                    objectif.innerHTML=" ";
+                    for (let c of reponse)// l'object de la classe ramenait aussi id et class_id = classe.id  car c'estcette object qui est renvoyé par le serveur 
+                    //obj_school_classe cette object ne contient pas classe_id car cest la table classe mais elle ontient classe.id=classe_id
+                    {//je dois créer des lignes avec les noms de chaque classe 
+                       objectif.innerHTML+=//pour faire la sonne de la page précédent à chaque fois qu'on ajoute un élément  
+                    `<tr>
+                         <td >
+                         <a href ="page_presence.html?classe_id=${c.id}"">
+                        ${c.classe_scolaire_norm}
+                        </a>
+                        </td> <!c'est le nom de chaque classe obtenue grâce  à a récupération de l'object obtenu avec toutes les classes >
+                        
+                        </tr>`;
+                    };
+}
+window.onload = chargerClasses;
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,28 @@
+<DOCTYPE !html>
+<html>
+    <body id="spent">
+        <script>
+            tag=document.getElementById("spent");
+            //function qui définira comment  je vais afficher mes valeurs 
+            async function   display_spent_message(){
+                //I 'll send the request at my back end 
+                api_sent= await fech("/message",{
+                    method:"GET",
+                    //we not send the token  using the headers keys but credentials 
+                    credentials:"include",
+                    
+                });
+                //Nous prenons le resultat renvoyé par le serveur 
+                resultat=await api_sent.json()
+                // je vais afficher les resultats que je veux vour sur mon front end selon l'école grâce à innerHTML
+                tag.innerHTML=`</p1>Vous avez dépensé ${resultat.mess_spent_total} et envoyé ${resultat.mess_sent} message(s)</p1>`;
+            }
+            // Je n'ai pas besoin de dire au java script d'attendre que le html ai fini d'afficher  pour lancer la même requête pour le javascript pour un cas différent
+        </script>
+
+    </body>
+    
+
+</html>
+
+    

@@ -1,0 +1,117 @@
+<!DOCTYPE html >
+<html>
+<header>
+    <!Pour empêcher une lecture bizarre et obtenir des noms bizarres dans mon placeholder car le navigateur aura lit en utf autre que 8 >
+    <meta charset="UTF-8">
+    <!Le titre de  la ,page , j'ignore à quoi ça sert>
+    <title>creation </title>
+</header>
+<body style ="
+display:flex;
+flex-direction:column;
+height:100vh;
+gap:40px;
+justify-content:center;
+align-items:center;
+background:linear-gradient(green,yellow,blue)
+">
+    <form  id="creation" style="display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    ">
+        <h1>Creation de compte</h1>
+        <input type="text"  placeholder="ecole"  name="school_name" required>
+        <!le nom dans l'argument name est utilisé  par le javascript pour que java puisse le faire> 
+        <!comment faire que l'identifiant soit fait pour une école  par rapport à la ville >
+        <input type="text" name="city_school" placeholder="Ville de l'école"   required>
+        <p>Créez un identifiant qui vous servira lors des connexions</p>
+        <input type="text" name="identifiant"  placeholder="identiant de connexion" required>
+        <!Put required allow me , to say ,i can't allow  the submission  without this column (front end submission)>
+        <input type="text" name="password"  placeholder="le mot de passe pour l'école" required>
+        <input type="tel" name="number_school" placeholder="Numéro de l'établissement" required>
+        <!For the download file by  the  user  for take it like example  thanks the static file created in the main file>
+        Pour valider la première étape d'inscription  , vous devez  télécharger d'abord l'exemple du fichier sur le lien suivant :  
+        Afin de vous basez dessus pour connaître les colonnes nécessaires pour que l'envoie de votre fichier csv soit valide  
+        <a href ="modele_eleve.csv"  download="modele_eleve.csv">fichier d'exemple</a>
+        <!uploade  file by the user , the argument  accept give the restrictions on the csv who must entry >
+        <input type="file" name="file_csv"  accept="csv" required>
+        
+        <button type="submit">soumettre</button>
+        
+    
+
+
+          
+ 
+    <script>
+        //Donc je fais l'appel d'un seul api multipart sui contiendra tout les donnée
+        document.getElementById("creation").addEventListener("submit",async function (event)
+    {
+        //instruction pour la fonction anonyme de mon formulaire 
+        //obligation de ne pas agir par défaut c'est à  dire recharché la page csv sans notre autorisation 
+        event.preventDefault();
+        //instruction2  On récupère les données sur le formulaire 
+       const school= event.target.school_name.value;
+          const city=event.target.city_school.value;
+          const identify=event.target.identifiant.value;
+          const mdp =event.target.password.value;
+          const number_school=event.target.number_school.value;
+          //récupération du fichier uploader  sur le front comme si c'etait une liste 
+          const file=event.target.file_csv.files[0];
+
+        //But before we will must  create the data where we'll put the  csv file and add the champs to the formula 
+        // creation  an  empty data
+        const data= new FormData();
+        // i'm adding the  csv file 
+        data.append("fichier",file);
+        data.append("school_norm",school);
+        data.append("city_school",city);
+        data.append("id_etablissement",identify);
+        data.append("password",mdp);
+        data.append("numero_school",number_school);
+
+        //fetch responsable of the endpoints for the formula
+          const api_1=await fetch("/formulaire_remplir",
+            {
+                method:"POST",
+                body:data
+            }
+          );//Pourquoi on ne doit pas mettre de  await devant des if qui dépendent de fetch qui pourrait mettre du temps ? 
+          // récupération des erreurs transmis par la requête http  entre mon back end et mon front end et on le récupère grâce à la propriété status
+          const status_code= api_1.status;
+          //J'appelle toutes les erreurs possibles qui peuvent se lever  dans l'api 
+           if (!api_1.ok){
+            // j'ai trois erreurs différentes à lever 
+            if (status_code==422)
+            {
+                alert ("Le fichier csv ne correspond pas au format attendu");
+                return ;
+            } ;
+            if (status_code==403)
+            {
+                alert("Vous n'avez pas saisi le nom de l'école");
+                return ; // on coupe tout en cas d'erreur ensuite  le back end est informé il supprime tout 
+            };
+             if (status_code==409) 
+            {
+                alert("l'école saisie est déja dans la base de donnée si vous êtes le responsable de l'établissement ,veuillez vous connecter");
+                return ;
+            };
+          };
+          //dans le cas où il  n' ya eu aucun message on va renvoye  vers une autre page après
+          //pour l'inant on envoie jsute ce message 
+            if (api_1.ok){
+        alert("Le compte a été enregistré vous pouvez dorénavent vous connecter");
+        window.location.href="login.html";
+          };
+    });//je mets virgule car la fonction anonyme est un argument de  de la fonction qui décrit l'évenement que va subir le formulaire 
+    
+
+    </script>
+       
+    </form>
+</body>
+<html>
+    <!le bon message d'erreur n'est pas affiché>

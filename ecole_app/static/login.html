@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            connexion
+        </title>
+    </head>
+<body style="
+    display:flex;
+    
+    align-items:center;
+    
+    justify-content:center;
+    flex-direction:column;
+    height:100vh;
+    gap:50px;
+    
+    background:linear-gradient(green,yellow,blue)">
+
+    <h1>Connexion</h1>
+    
+    <form id ="connexion">
+        <input type="text"
+        name="Identifiant"
+        placeholder="IDENTIFIANT">
+
+        <input type="text"
+        name="password"
+        placeholder="mot de passe">
+        <button type="submit">envoyer</button>
+    </form>
+    <script>
+        document.getElementById("connexion").addEventListener(
+            "submit",async function(event){
+                //we avoid the default behave of html page for the formula 
+                //instruction number 1 
+                event.preventDefault();
+                //let's fetch the value input on the formula
+                const id_school=event.target.Identifiant.value;
+                const mdp=event.target.password.value;
+                // Instruction 3 , let's prepare my fetch for my servor 
+                const api_1=await fetch("/authentification",// l'envoie du fetch dans ma bdd peut prendre du temps 
+                    {
+                        method:"post",
+                        headers:{"Content-type":"application/json"},
+                        credentials:"include",//ça veut dire que j'autorise mon serveur avec une origine différente d'envoyer un cookies qui sera mis en  storage persistant
+                        body:JSON.stringify({
+                            "id_etablissement":id_school,
+                            "password":mdp
+                        })
+                    });
+                    const reponse=await api_1.json();
+                //LEe resultat retouné par mon serveur
+                // UNITILE CAR  LE resultat envoyé par le serveur ests déjà mon token const jwt=reponse.resultat;//la réponse du serveur peut être plus longue que l'envoie du resultat  sur le font end sans le montrer bien sûr
+                 //je vais prendre dans json sent by the servor  the type errors was excepting
+
+                 // 4. Stockage du badge (Crucial pour la suite !) / en mettant resultat je vérifie si  le retour d'un est un obj quadn sur le back end on return la valeru cible 
+                //localStorage.setItem("mon_token", reponse.resultat); //pour mon serveur quand il demandera la preuve 
+
+
+
+
+
+                // plus besoin de stockage  de mon token dans ce tockage persistant non protégé des attaques xss 
+                 const status= await api_1.status ;  
+                //je vais lever les erreurs mise en  évidence  dans mon back end sur mon frontend 
+                if (!api_1.ok){
+                    //essayer  détails plus tard 
+
+                        if (status==404){
+                            alert("Yayeeeee Cet identifiant n'existe pas");
+                            return;
+                        };
+                        if (status==403)
+                        {
+                            alert("Yayeeeee,  ton mot de passe érroné");
+                            return;
+                        };};
+                if (api_1.ok){
+                    alert("C'est carré");
+                    window.location.href="/static/amusement.html";      
+            };})
+    </script>
+    
+</body>
+</html>

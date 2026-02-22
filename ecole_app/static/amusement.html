@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <!Objectif faire   le front end d'un  tableau d'untableua dont l'fficage dépend de bdd>
+    <head>
+        <meta charset="utf-8">
+    </head>   
+    <body style="display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+                height:100vh;
+                background:linear-gradient(green,yellow,blue)">
+        <table style="width:60%">
+            <!Nomination du tableau crée >
+            <tr>
+                <th>    
+                    Liste des classes
+                </th> 
+            </tr>
+            <!On va créer le body du tableau la partie qui va dépendre des données>
+            <tbody id="tableau" style="background-color:green">
+
+            </tbody>
+        </table>
+        <script>
+            //I need use a name  function , and apply that i want on the element took
+            async function display_tab(){
+            // Instruction 1 
+            //We will describe how the  data will appaear
+            table_body=document.getElementById("tableau");
+            //Instruction 2 
+            //Mon back end aura besoin de mon token dans  mon fetch
+            const token=localStorage.getItem("mon_token");
+            //je vais envoyer les donnée svers le serveur 
+            const api_1=await fetch("/classe_display",
+                {method:"GET",
+                    headers:{"Authorization":token}
+                });
+            //La réponse du serveur sous forme d'object qu'on doit convertir en object  pour javascript alias json
+            const reponse= await api_1.json();// car prendre la réponse probenant du back end peut prendre éventuellement du temps 
+            //le serveur revient avec les classe nécessaire selon  lel sujet du token qui a été convertis en str or c'st un entier
+            //Donc j'ai les classes  on va mauntenant les fiare afficher au fur et à mesure
+            //on initailise innerHTML  0 CE QUI  nous permettra d'afficher le sclasses au fur et à mesure sans rénitialiser c'est pour faire comme i+=
+                table_body.innerHTML=" ";
+                // petite boucle pour que l'affichage des classes s'arrête uniquement quand toutes les classes de mon école serint affiché 
+                for (let a of reponse){//  a correspond au nom de chaque ligne de l'object reponse 
+                        // creation des classes au fur et à mesure 
+                        table_body.innerHTML+=`
+                       
+                        <tr    style="height:46px">
+                             
+                            <td > 
+                                <a href ="page_presence.html?classe_id=${a.id}"">
+                        ${a.classe_scolaire_norm}
+                        </a>
+                               
+                                </td>
+                            </tr>`;
+                };}
+                window.onload=display_tab; // sert  à dire à mon javascript attend que tous les élements sont sur mon html ppoour commencer à apparaître 
+            
+
+        </script>
+    </body>
+</html>

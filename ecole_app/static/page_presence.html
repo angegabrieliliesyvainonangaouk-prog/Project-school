@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        page_presence
+    </head>
+    <body style="display:flex;flex-direction:column;justify-content:top;align-items:left;height:100vh">
+        <form id="appel_presence">
+        
+        <input type="date" id="date" name="date_jour" style="display:flex;flex-direction:column;justify-content:left" required>
+        <select id="choix" onchange="jonction()" name="horaires" required><!Nous voulons faire afficher des selecteurs spécifiques pour certains selecteurs>
+           <!We don't put  the name attribut because the only  who  it is nesseary, it's the select  tag > 
+            <option id="APCD" value="Appel_1">Appel premier cours (Début)</option>
+             <option id="APCF" value="Appel_2">Appel premier cours (Fin)</option>
+             <option id="ADCD" value="Appel_3">Appel deuxième cours (Début)</option>
+                <option id="ADCF" value="Appel_4">Appel deuxième cours (Fin)</option>
+                <option id="ATCD" value="Appel_5">Appel troisième cours (Début)</option>
+             <option id="ATCF" value="Appel_6">Appel troisième cours (Fin)</option>
+              <option id="AQCD" value="Appel_7">Appel quatrième cours (Début)</option>
+               <option id="AQCF" value="Appel_8">Appel quatrième cours (Fin)</option>
+        </select>
+        <h1>Page d'appel</h1 style ="background-color:blue">
+            <table>
+                <!put an attribut inside these tags is useless>
+                <tr style="background-color:blue">
+                    <th  id="nb" >Nombre d'élèves</th>
+                     <th id="name" >Nom des élèves</th>
+                    <th id="status" >status</th>
+                    
+                
+                </tr>
+                
+               
+         
+            <tbody id ="presence">
+
+            </tbody>
+</table>
+<button type="submit">valider</button>
+</form>
+    </body>
+    <script>
+       // le havascript est plus rapide que le html je mets ça à l'intérieur de les élements pour pouvoir faire patienter un peu le js
+        // c'est cette colonne qui va subir mon choix 
+        //je récupère d'abord le token que j'ai enregistré sur le navigateur car mon api get en aura besoin 
+       //ce n'est pas prudent laissé son token sur le front end  sans protection ? 
+        // récupération dans la mémoire  du navigateur l'identifiant envoyé par url  de la classe envoyé par l'url
+        // création d'un object 
+        const obj_url=new URLSearchParams(window.location.search);
+        // vu que j'ai transformé la partie paramétrage en object je peux officiellement la récupérer
+        const classe_id=obj_url.get("classe_id");// j'ai récupéré la valeur de l'identification que je pourrai envoyer au serveur 
+        //Définition de la fonction qui servira à appliquer  qui est mélangé la table des élèves juse le nom et celle 
+        // des présences 
+        cible=document.getElementById("presence");//id tbody 
+             //je veux afficher les noms des enfants de la classe que je choisirais 
+ 
+        //Création de la fonction  qui me permet d'afficher les selecteurs selon mes règles métiers 
+        //Appel_debut(present/retard)
+        //appel_fin(présent/absent)
+        const selecteur=document.getElementById("choix");//i took the element inside my html page 
+        function selection (selecteur){
+            if (selecteur.value=="fin"){
+                    return `<td>
+                        <select name="status">
+                            <option>present</option>
+                            <option>absent</option>
+                        </select>
+                    </td>
+                   ` ;}
+                if (selecteur.value=="debut"){
+                    return `
+                        <td>
+                            <select name="status">
+                                <option>present</option>
+                                <option>retard</option>
+                            </select>
+                        </td>
+                        `;
+
+                }
+            }
+        
+
+        
+        async function jonction(){//je doute qu ce soit optiale en vittesse  parceque j'ai utilisé id de la balise pre
+        
+            const api_get= await fetch(`/display_student_classe/${classe_id}`,{
+                method:"GET",
+               credentials:"include"// j'autorise l'envoie du cookie qui nest dans mon navigateur à mon serveur 
+            });
+            // retour de ma requête envoyé vers mon serveur , il est en json à cause de la requête HTTP donc je vais le mettre en object , ou dictionnaire pour mon 
+            //javascript 
+            const reponse_get= await api_get.json();//c'est bon il est  en object utilisable par le front end 
+           
+            // cette object contient toute les ligne de 
+            // cree une page vide qui va me servir d'initialisation
+            cible.innerHTML="";//j'initailise la page vide 
+           
+            //je vais utiliser l'object eu du serveur repose_get qui me donne toutes les élèves de la classe que j'ai demandé une par une 
+            reponse_get.forEach( (i,index)=>//IL  va parcourir toutes les ligens de l'objet qui contient la liste des élèves de la classe
+            // pour  chaque ligne de cette liste je dois créer une ligne avec le de l'élève sans supprimer la ligne préceédente 
+            {
+                    cible.innerHTML+=`<tr ">
+                        <td>${index+1}</td>
+                        <td>${i.name_student}</td>
+                        <!je crée l'input invisible poru stocker l'identifaint de chaque élève et qu'elle soit envoyé à mon serveur>
+                        <input type="hidden" name="identifiant_eleve" value="${i.id}">
+                        <td>${selection(selecteur)}</td>
+                                </tr>
+                        `;
+                       
+            });}
+            window.onload=jonction;
+           // Maintenant le resultat  on doit faire  enregistrer  dans la bdd , on recupére les valeur scomme un formulaire
+           //Nous allons récuperer  les valeurs sur le front end pour les envoyer au serveur
+         document.getElementById("appel_present").addEventListener("submit",async function
+                  (declencheur)
+                {
+                    declencheur.preventDefault();
+                    //Je vais finalement  récupérer  les choix par les utilisateurs sous data 
+                    // parce qu'il pourrait exister des cas où les élèves  sont  en grands  nombre dans une classe au lieu 
+                    // de récupérer ligne par ligne on put récupérer toous à la fois 
+                    // création  d'un data et récupération de toutes les données dont l'attribut  name est déclaré
+                    const data =new FormData(this);
+                    
+                    // bon les valeurs sont  récupéré on envoie , on envoei ,  comme on utilise pas de schéma pydantic on 
+                    // doit dire à fastapi de ne pas quand même attendre les valeurs dans l'url 
+                    const send=await fetch("/presence_appel",{
+                        method:"POST",
+                        headers:{"authorization":token},
+                        body:data
+                    });
+                    //Peenons le resultat provenant du serveur 
+                    const finish=await send.json();// ça va correspondre  à liste des personnes dont on a envoyé le essage au parent 
+                    // rt je vais déclarer toutes les erreurs possibles qui devront apparaître sur mon back end 
+
+
+                })
+
+    </script>
+</html>
