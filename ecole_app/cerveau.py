@@ -44,7 +44,7 @@ def create_jwt(id:int,secret_key:str):#cette fonction va devenir la fonction de 
      obj.set_cookie(key="cookie",
      value=jwt_cre,
           httponly=True,
-          secure=False,
+          secure=True,
           samesite="lax"#il gère une  sécurité pour les csp 
      )
       
@@ -962,4 +962,5 @@ def somme_spent(cookie:str=Cookie(...),db:Session=Depends(get)):
      return obj_sent
 
                     
+
      
