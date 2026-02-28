@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y nginx
 
 # 4. Copie de TON fichier de bibliothèques
 # Justification : On utilise exactement le nom de ton fichier local.
-COPY librairie_recquises .
-RUN pip install --no-cache-dir -r librairie_recquises
+COPY librairie_reqcuises .
+RUN pip install --no-cache-dir -r librairie_reqcuises 
 
 # 5. Copie de tes fichiers de code et de config
 # Justification : On met 'cerveau.py' et 'nginx.conf' dans le conteneur.
