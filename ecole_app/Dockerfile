@@ -11,9 +11,10 @@ RUN apt-get update && apt-get install -y nginx
 # 4. Copie de TON fichier de bibliothèques
 # Justification : On utilise exactement le nom de ton fichier local.
 COPY ecole_app/librairie_reqcuises.txt .
+#Je viens de copier juste le fichier  librairie_reqcuises.txt dans le workplace
 #here i copy my file librairie at the workplace  who is the root, this workplace exists to put the command like that  
-RUN pip install --no-cache-dir -r ecole_app/librairie_reqcuises.txt 
-
+RUN pip install --no-cache-dir -r librairie_reqcuises.txt 
+#et donc pour installer les caches   j'ai besoin juste du nom qui est dans le chemein relatives et non le chemin absolue du fichier 
 # 5. Copie de tes fichiers de code et de config
 # Justification : On met 'cerveau.py' et 'nginx.conf' dans le conteneur.
 COPY . .
