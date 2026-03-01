@@ -6,3 +6,4 @@ uvicorn
 slowapi
 pydantic 
 psycopg2-binary
+requests
