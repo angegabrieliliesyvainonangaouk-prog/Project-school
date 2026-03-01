@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r librairie_reqcuises.txt
 #et donc pour installer les caches   j'ai besoin juste du nom qui est dans le chemein relatives et non le chemin absolue du fichier 
 # 5. Copie de tes fichiers de code et de config
 # Justification : On met 'cerveau.py' et 'nginx.conf' dans le conteneur.
-COPY . .
+COPY ecole_app/ .
 
 # On déplace ton fichier de config là où Nginx s'attend à le trouver
 RUN mv nginx.conf /etc/nginx/nginx.conf
