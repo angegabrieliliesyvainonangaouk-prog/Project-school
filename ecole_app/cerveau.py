@@ -1,4 +1,4 @@
-from fastapi import FastAPI,UploadFile,File,Depends,HTTPException,Form ,Header,Response,Cookie
+from fastapi import FastAPI,UploadFile,File,Depends,HTTPException,Form ,Header,Response,Cookie,Request
 from schema import ecoleOut , ecoleCreate,classeOut,classeCreate,tokenCreate,presenceCreate
 from database import Base,engine,get
 from sqlalchemy.orm import Session
@@ -123,7 +123,7 @@ def normalize(mot:str)->str:
 
 #We're defining the rate limite 
 from slowapi import Limiter 
-from slowapi.util import get_remote_address
+from slowapi.util import get_remote_address#revoir le code source de cette fonction de rappelle je peux le modifier 
 
 #url de la bdd où je stockerai 
 url_redis=os.getenv("URL_REDIS")
@@ -151,7 +151,7 @@ limite=Limiter(key_func=get_remote_address,storage_uri=url_redis)
 @limite.limit("4/4 minutes")
 
 #Ici aussi c'est la même chose plusieurs  exceptions  de différentes librairies sont levées donc on met un try except pour  faire en sorte qu'il soit compris tous en un seul languages 
-def formulaire (school_norm:str=Form(...), #ici si il n' ya pas une un élément obligatoire une erreur 422 sera levé 
+def formulaire (request:Request,school_norm:str=Form(...), #ici si il n' ya pas une un élément obligatoire une erreur 422 sera levé 
     password:str=Form(...),
     city_school:str=Form(...),
     id_etablissement:str=Form(...),numero_school:str=Form(...),
@@ -291,18 +291,7 @@ def formulaire (school_norm:str=Form(...), #ici si il n' ya pas une un élément
 
 
 
-#Quelque erreurs provenat du navigateur à cause de lutilisateur
-#400 : Mauvaise requête.
-#401 : Non identifié (Pas connecté).
-#403 : Interdit (Connecté mais pas le droit).
-#404 : Non trouvé.
-#409 : Conflit (ex: doublon).
-#422 : Entité non traitable (ex: erreur logique métier).
-#i known 4 family the errors like  200 for teh operation who succed 
-#300 redirection , url  has changed 
-#400 the errors come from the navigator 
-#500 the erros come from oh the servor
-# 
+
 
 #Il testera le mot de passe 4 fois en une minute max , non optimale
 @limite.limit("4/minute")
@@ -318,9 +307,9 @@ def verif(password:str,password_hash:str):#Pour sauter le problème avec les  no
 
 secret_keys=os.getenv("KEY_JWT")
 @app.post("/authentification")# this isn't impactint for my database
-@app.limiter.limit("3/minutes")#si toutes les classes   doivent se connecter à la même horaire ce qui est logique 
+@limiter.limit("3/minutes")#si toutes les classes   doivent se connecter à la même horaire ce qui est logique 
 #on part du principe un  adress ip public correspond au wifi d'une seule école 
-def authentification( t:tokenCreate,db:Session=Depends(get))->dict:
+def authentification(request:Request,t:tokenCreate,db:Session=Depends(get))->dict:
 
      obj_3=db.query(ecole).filter(ecole.id_etablissement==t.id_etablissement).first()
 
@@ -346,7 +335,7 @@ def authentification( t:tokenCreate,db:Session=Depends(get))->dict:
 @limite.limit("12/minute")
 
 #My goal will be display the class switch each école 
-def display(cookie:str=Cookie(None),db:Session=Depends(get)):
+def display(request:Request,cookie:str=Cookie(None),db:Session=Depends(get)):
      #On doit prendre dans  le cookie le token  pour obtenir l'id de chaque classe pour l'affichage du contenu de chauqe classe 
      #dans l'endpoints suivants  
 
@@ -389,7 +378,7 @@ def display(cookie:str=Cookie(None),db:Session=Depends(get)):
 @app.get("/display_student_classe/{classe_id}")
 
 @limite.limit("12/minutes")
-def display(classe_id:int,cookie:str=Cookie(...),db:Session=Depends(get)):
+def display(request:Request,classe_id:int,cookie:str=Cookie(...),db:Session=Depends(get)):
      #la présence avant la correspondance
      try:
      
@@ -428,7 +417,7 @@ import asyncio
 
 @limite.limit("12/minute")
 
-async def presence(cookie:str=Cookie(...),identifiant_eleve:list[int]=Form(...),horaires:str=Form(...),date_jour:str=Form(...),status:list[str]=Form(...),db:Session=Depends(get)):
+async def presence(request:Request,cookie:str=Cookie(...),identifiant_eleve:list[int]=Form(...),horaires:str=Form(...),date_jour:str=Form(...),status:list[str]=Form(...),db:Session=Depends(get)):
      try:
      #On doit d'abord décoder le token  et l'ouvrir
           variable=jwt.decode(cookie,secret_keys,algorithm="HS256")
@@ -916,7 +905,7 @@ async def presence(cookie:str=Cookie(...),identifiant_eleve:list[int]=Form(...),
 @limite.limit("12/minute")
 #on aura besoin du token  car je veux protéger cette api et que je veux que chauqe école voit les messages qu'ils ont dépensé 
 #après je mettrais  le temps à l'intérieur ppur afficher que le nombre de message par  mois  et que le message se rénitialise à la fin 
-def somme_spent(cookie:str=Cookie(...),db:Session=Depends(get)):
+def somme_spent(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
      try:
      #Decodons le token qui est arrivé et  qui contient le sujet qui est l'id de l'école  pour 
      #qu'un personne sans  le bon token puisse accéder à ces données , même si il sait qu'in faut un token 
@@ -964,6 +953,7 @@ def somme_spent(cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
 
