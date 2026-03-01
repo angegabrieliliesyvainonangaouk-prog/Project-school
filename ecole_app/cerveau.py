@@ -126,7 +126,7 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 
 #url de la bdd où je stockerai 
-url_redis=os.getenv("KEY_JWT")
+url_redis=os.getenv("URL_REDIS")
 #J'initialise the LImiter class
 limite=Limiter(key_func=get_remote_address,storage_uri=url_redis)
 #Je vais mettre l'object limite dans l'object natif app=Fastapi()
@@ -964,4 +964,5 @@ def somme_spent(cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
