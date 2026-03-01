@@ -130,7 +130,7 @@ url_redis=os.getenv("URL_REDIS")
 #J'initialise the LImiter class
 limite=Limiter(key_func=get_remote_address,storage_uri=url_redis)
 #Je vais mettre l'object limite dans l'object natif app=Fastapi()
-lim=app.state.limite
+
 
 
                
@@ -148,7 +148,7 @@ lim=app.state.limite
 #J'impose une limite (rate limite pour chaque ip)
 #Pas optimale du tout , il faut pourvoir lever l'erreur 429 dans mon code pour faire comprendre à une personne ayant le même ip d'attendre avant de retenter de créer le compte 
 #si la création de son compte n'était pas valide 
-@app.lim.limit("4/4 minutes")
+@limite.limit("4/4 minutes")
 
 #Ici aussi c'est la même chose plusieurs  exceptions  de différentes librairies sont levées donc on met un try except pour  faire en sorte qu'il soit compris tous en un seul languages 
 def formulaire (school_norm:str=Form(...), #ici si il n' ya pas une un élément obligatoire une erreur 422 sera levé 
@@ -305,7 +305,7 @@ def formulaire (school_norm:str=Form(...), #ici si il n' ya pas une un élément
 # 
 
 #Il testera le mot de passe 4 fois en une minute max , non optimale
-@app.lim.limit("4/minute")
+@limite.limit("4/minute")
 
 #La fonction de vérification d'un mot de passe 
 def verif(password:str,password_hash:str):#Pour sauter le problème avec les  noms des arguments qui se ressemblent , j'utiliserai ma fonction de manière positionnel
@@ -343,7 +343,7 @@ def authentification( t:tokenCreate,db:Session=Depends(get))->dict:
 
 #si toutes les classes de l'écoles de manières simultanées se connectent et envoient une requête en même temps
 #j'ai 10 classes  donc 10 professeurs en moyenne dans une école 
-@app.lim.limit("12/minute")
+@limite.limit("12/minute")
 
 #My goal will be display the class switch each école 
 def display(cookie:str=Cookie(None),db:Session=Depends(get)):
@@ -388,7 +388,7 @@ def display(cookie:str=Cookie(None),db:Session=Depends(get)):
 #Api Get responsable de l'affichage des l'affichage des élèves d'une classe 
 @app.get("/display_student_classe/{classe_id}")
 
-@app.lim.limit("12/minutes")
+@limite.limit("12/minutes")
 def display(classe_id:int,cookie:str=Cookie(...),db:Session=Depends(get)):
      #la présence avant la correspondance
      try:
@@ -426,7 +426,7 @@ import asyncio
 
 @app.post("/presence_appel")
 
-@app.lim.limit("12/minute")
+@limite.limit("12/minute")
 
 async def presence(cookie:str=Cookie(...),identifiant_eleve:list[int]=Form(...),horaires:str=Form(...),date_jour:str=Form(...),status:list[str]=Form(...),db:Session=Depends(get)):
      try:
@@ -913,7 +913,7 @@ async def presence(cookie:str=Cookie(...),identifiant_eleve:list[int]=Form(...),
 #Je dois faire un api qui me  permet d'afficher le nombre de message de message de l'école et la somme 
 @app.get("/message")
 
-@app.lim.limit("12/minute")
+@limite.limit("12/minute")
 #on aura besoin du token  car je veux protéger cette api et que je veux que chauqe école voit les messages qu'ils ont dépensé 
 #après je mettrais  le temps à l'intérieur ppur afficher que le nombre de message par  mois  et que le message se rénitialise à la fin 
 def somme_spent(cookie:str=Cookie(...),db:Session=Depends(get)):
@@ -964,5 +964,6 @@ def somme_spent(cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
