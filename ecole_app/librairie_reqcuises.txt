@@ -7,3 +7,4 @@ slowapi
 pydantic 
 psycopg2-binary
 requests
+python-multipart
