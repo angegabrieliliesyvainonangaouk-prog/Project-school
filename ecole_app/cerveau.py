@@ -301,7 +301,7 @@ def verif(password:str,password_hash:str):#Pour sauter le problème avec les  no
 
 secret_keys=os.getenv("KEY_JWT")
 @app.post("/authentification")# this isn't impactint for my database
-@limiter.limit("3/minutes")#si toutes les classes   doivent se connecter à la même horaire ce qui est logique 
+@limite.limit("3/minutes")#si toutes les classes   doivent se connecter à la même horaire ce qui est logique 
 #on part du principe un  adress ip public correspond au wifi d'une seule école 
 def authentification(request:Request,t:tokenCreate,db:Session=Depends(get))->dict:
 
@@ -947,6 +947,7 @@ def somme_spent(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
 
