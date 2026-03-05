@@ -290,13 +290,7 @@ def formulaire (request:Request,school_norm:str=Form(...), #ici si il n' ya pas 
 #cas où le fichier csv est vide 
 
 
-
-
-
-#Il testera le mot de passe 4 fois en une minute max , non optimale
-@limite.limit("4/minute")
-
-#La fonction de vérification d'un mot de passe 
+#La fonction de vérification d'un mot de passe (création , it'sn't the enpoints, we needn't the rate limite 
 def verif(password:str,password_hash:str):#Pour sauter le problème avec les  noms des arguments qui se ressemblent , j'utiliserai ma fonction de manière positionnel
 #password_hash c'est le mot de passe provenant du back end et est hashé
 #Je compare le mot de passe hashé dans mon back et celui envoyé dans mon front end   ce qui va permettre l'activation de sel qui s'active qu'au 
@@ -953,6 +947,7 @@ def somme_spent(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
 
