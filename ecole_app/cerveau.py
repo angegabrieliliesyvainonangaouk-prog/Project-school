@@ -32,10 +32,7 @@ from jose import jwt
 from datetime import datetime,timedelta
 
 
-#Je vais créer un endpoints qui me permet de renvoyer par défeaut à la page d'acceuill si rien n'est choisi à la racine 
-@app.get("/")
-async def racine_page():
-  return  FileResponse(https://project-school-ok5q.onrender.com/static/page_1_frontend.html)
+
 
 def create_jwt(id:int,secret_key:str):#cette fonction va devenir la fonction de création d'un  cookies 
      maintenant=datetime.utcnow()
@@ -103,6 +100,13 @@ app.mount("/static",StaticFiles(directory="static"),name="static")
 #apparement je ne peux pas appeler directement appeler un fichier qui est sur mon ordi au front entd 
 #car le front end est comme  à l'extérieur c'et comme si je demandais à un site web de prendre directement les ionfos sur mon ordi or il ne peutr ^pas 
 #le fichier stati permet de créer une requêtes http qui permet de trouver ce fichier 
+
+
+#Je vais créer un endpoints qui me permet de renvoyer par défeaut à la page d'acceuill si rien n'est choisi à la racine 
+@app.get("/")
+async def racine_page():
+  return  FileResponse("static/page_1_frontend.html")
+
 
 #Fonction pour pour hasher un mdp
 from  passlib.context import CryptContext 
@@ -954,6 +958,7 @@ def somme_spent(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
 
