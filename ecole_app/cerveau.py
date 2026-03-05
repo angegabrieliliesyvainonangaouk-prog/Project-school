@@ -1,4 +1,4 @@
-from fastapi import FastAPI,UploadFile,File,Depends,HTTPException,Form ,Header,Response,Cookie,Request,ResponseFile
+from fastapi import FastAPI,UploadFile,File,Depends,HTTPException,Form ,Header,Response,Cookie,Request
 from schema import ecoleOut , ecoleCreate,classeOut,classeCreate,tokenCreate,presenceCreate
 from database import Base,engine,get
 from sqlalchemy.orm import Session
@@ -9,6 +9,7 @@ from sqlalchemy import  insert,func
 import os 
 import csv 
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import jose
 import json 
 import requests
@@ -34,7 +35,7 @@ from datetime import datetime,timedelta
 #Je vais créer un endpoints qui me permet de renvoyer par défeaut à la page d'acceuill si rien n'est choisi à la racine 
 @app.get(/)
 async def racine_page():
-  return  ResponseFile(https://project-school-ok5q.onrender.com/static/page_1_frontend.html)
+  return  FileResponse(https://project-school-ok5q.onrender.com/static/page_1_frontend.html)
 
 def create_jwt(id:int,secret_key:str):#cette fonction va devenir la fonction de création d'un  cookies 
      maintenant=datetime.utcnow()
@@ -953,6 +954,7 @@ def somme_spent(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
 
