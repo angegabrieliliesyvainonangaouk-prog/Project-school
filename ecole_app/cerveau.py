@@ -33,7 +33,7 @@ from datetime import datetime,timedelta
 
 
 #Je vais créer un endpoints qui me permet de renvoyer par défeaut à la page d'acceuill si rien n'est choisi à la racine 
-@app.get(/)
+@app.get("/")
 async def racine_page():
   return  FileResponse(https://project-school-ok5q.onrender.com/static/page_1_frontend.html)
 
@@ -954,6 +954,7 @@ def somme_spent(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
 
