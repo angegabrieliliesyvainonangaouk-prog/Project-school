@@ -9,3 +9,4 @@ psycopg2-binary
 requests
 python-multipart
 redis[hiredis]
+argon2-cffi
