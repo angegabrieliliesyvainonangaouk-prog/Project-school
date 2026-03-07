@@ -102,7 +102,7 @@ class student(Base):
     name_student=Column(String,index=True,nullable=False)
     gender=Column(String,nullable=False)
     blood_group=Column(String)
-    date_birth=Column(Integer,nullable=False)
+    date_birth=Column(Date,nullable=False)
     place_birth=Column(String,nullable=False)
     origin=Column(String,nullable=False)
     residence=Column(String,nullable=False)
@@ -187,4 +187,5 @@ class  log (Base):
     #connexion avec la  table presence 
     attribut_presence=relationship("presence",back_populates="attribut_log")
     
+
    #on ne peut relier deux tables vec relationship si lorqu'un se crée des éléments se crée aussi  dans l'autre table , ici quand on crée des écoles , aucuns champ dans la classe log est impacté automatiquement 
