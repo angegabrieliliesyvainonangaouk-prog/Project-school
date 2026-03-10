@@ -102,10 +102,7 @@ app.mount("/static",StaticFiles(directory="static"),name="static")
 #le fichier stati permet de créer une requêtes http qui permet de trouver ce fichier 
 
 
-#Je vais créer un endpoints qui me permet de renvoyer par défeaut à la page d'acceuill si rien n'est choisi à la racine 
-@app.get("/")
-async def racine_page():
-  return  FileResponse("static/page_1_frontend.html")
+
 
 
 #Fonction pour pour hasher un mdp
@@ -958,6 +955,7 @@ def somme_spent(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
                     
 
      
+
 
 
 
