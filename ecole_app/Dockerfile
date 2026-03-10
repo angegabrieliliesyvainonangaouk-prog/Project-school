@@ -24,4 +24,4 @@ RUN mv nginx.conf /etc/nginx/nginx.conf
 
 # 6. Lancement de l'API
 # Justification : --host 0.0.0.0 est obligatoire pour que le conteneur soit joignable.
-CMD ["uvicorn", "cerveau:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD [ " nginx && uvicorn", "cerveau:app", "--host", "0.0.0.0", "--port", "5000"]
