@@ -24,4 +24,7 @@ RUN mv nginx.conf /etc/nginx/nginx.conf
 
 # 6. Lancement de l'API
 # Justification : --host 0.0.0.0 est obligatoire pour que le conteneur soit joignable.
-CMD [ " nginx && uvicorn", "cerveau:app", "--host", "0.0.0.0", "--port", "5000"]
+
+# On lance nginx en arrière-plan (daemon off; permet de le garder au premier plan si besoin)
+# Et on lance uvicorn. La syntaxe correcte sans crochets pour utiliser le "&&" :
+CMD nginx -g "daemon off;" & uvicorn cerveau:app --host 127.0.0.1 --port 5000
