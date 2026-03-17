@@ -66,9 +66,8 @@ def create_messe(nom_eleve:str,classe:str, ecole:str,status:str,appel:str):
 #Don't use the ai to build the message does the economises
 
 
-from fastapi.middleware.proxy_headers import ProxyHeadersMiddleware
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
-app = FastAPI()
 
 # Ajoute ce middleware en haut de ta liste de middlewares
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts=["*"])#9A VEUT DIRE ACCEPTE LES REQUËTE DE TOUTES les adresses ip qui te parleront 
