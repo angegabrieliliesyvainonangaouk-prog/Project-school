@@ -28,4 +28,4 @@ RUN mv nginx.conf /etc/nginx/nginx.conf
 # On lance nginx en arrière-plan (daemon off; permet de le garder au premier plan si besoin)
 # Et on lance uvicorn. La syntaxe correcte sans crochets pour utiliser le "&&" :
  #CMD nginx -g "daemon off;" & uvicorn cerveau:app --host  --port 5000
- CMD nginx && uvicorn cerveau:app --host 0.0.0.0 --port 5000
+ CMD  uvicorn cerveau:app --host 0.0.0.0 --port 5000
