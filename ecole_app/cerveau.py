@@ -48,7 +48,7 @@ def create_jwt(id:int,secret_key:str):#cette fonction va devenir la fonction de 
      obj.set_cookie(key="cookie",
      value=jwt_cre,
           httponly=True,
-          secure=True,
+          secure=False,
           samesite="lax"#il gère une  sécurité pour les csp 
      )
       
@@ -66,11 +66,6 @@ def create_messe(nom_eleve:str,classe:str, ecole:str,status:str,appel:str):
 #Don't use the ai to build the message does the economises
 
 
-from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
-
-
-# Ajoute ce middleware en haut de ta liste de middlewares
-app.add_middleware(ProxyHeadersMiddleware, trusted_hosts=["*"])#9A VEUT DIRE ACCEPTE LES REQUËTE DE TOUTES les adresses ip qui te parleront 
 
 #Function who will allow me use  termii (function to send the message )
 # i take the environnetalement variable who is the secrets api_key 
