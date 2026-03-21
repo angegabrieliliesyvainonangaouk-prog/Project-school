@@ -30,6 +30,8 @@
                 // je  n'ai rien à prendre du le front end à envoyé à part mon token que j'ai stocké 
                 const envoie= await fetch("/classe_display",
                     {method:"GET",
+                     
+                     headers: {"Content-type": "application/json"},
                       //headers:{"authorization":token}  inutile d'envoyer mon token par l'header comme ça car il est sur mon header sécurisé dans un cookies dans le navigateur
                       credentials:"include"
 
