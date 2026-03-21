@@ -361,13 +361,13 @@ def display(request:Request,cookie:str=Cookie(None),db:Session=Depends(get)):
           raise HTTPException(status_code=402,detail={"erreur":10,"message":"Le type de ton token n'est pas celui attendu par ma bdd "})
     except KeyError:
           raise HTTPException(status_code=401,detail={"erreur":11,"message":"le sujet n'existe pas dans ce token"})
-    except  Exception:
-          raise HTTPException(status_code=403,detail={"erreur":12,"message":"erreur inconnu"})
+    #except  Exception:
+          #raise HTTPException(status_code=403,detail={"erreur":12,"message":"erreur inconnu"})
      
      
     obj_school_classe=db.query(classe).filter(classe.ecole_id==id_ecole_token).all()
-    if not obj_school_classe :
-          raise HTTPException(status_code=403, detail={"error":13,"message":"tu n'es pas chez toi ici"})
+    #if not obj_school_classe :
+          #raise HTTPException(status_code=403, detail={"error":13,"message":"tu n'es pas chez toi ici"})
     return obj_school_classe#je voulais renvoyer toutes les classes de l'écoles et sur mon front end je vais faire 
      #un tableau de chaque classe dont en cliquant sur une classe on  sera  dirié vers 
      #un tableau avec la liste des élèves  et une colonne dans ce tableau à choix multiple qui correponds à présent , absent , en retard etc
