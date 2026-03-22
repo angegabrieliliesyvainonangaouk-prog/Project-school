@@ -350,7 +350,7 @@ def display(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
           #il peut arriver que  token soit là mais sans le sujet et si je n'anticipe cette erreur en tant que hacer je peux jouer sur ça
           #pour balancer des requêtes et faire crasher mon code 
           if  id_ecole_token  is None:
-               raise KeyError
+               raise HTTPException(status_code=401,details={"erreur":8,"message":"the token subject is absent"})
      # expiré peut survenir , ou que quequ'un envoie un token qui  est inconnu par ma fonction 
      #jwt.decode une error de type exception   qui fera crashé le code et cette exception n'est pas reconnu par fastapi d'où le crash 
     except jose.exceptions.ExpiredSignatureError:
