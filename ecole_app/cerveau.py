@@ -337,7 +337,7 @@ def authentification(request:Request,t:tokenCreate,db:Session=Depends(get))->dic
 @limite.limit("12/minute")
 
 #My goal will be display the class switch each école 
-def display(request:Request,cookie:str=Cookie(None),db:Session=Depends(get)):
+def display(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
      #On doit prendre dans  le cookie le token  pour obtenir l'id de chaque classe pour l'affichage du contenu de chauqe classe 
      #dans l'endpoints suivants  
 
@@ -355,12 +355,12 @@ def display(request:Request,cookie:str=Cookie(None),db:Session=Depends(get)):
      #jwt.decode une error de type exception   qui fera crashé le code et cette exception n'est pas reconnu par fastapi d'où le crash 
     except jose.exceptions.JWTError:
         # C'est ici que tombent les erreurs de token (expiré, faux, hacké)
-          raise HTTPException(status_code=1, detail={"erreur":9,"message":"Token invalide ou expiré"})
+          raise HTTPException(status_code=401, detail={"erreur":9,"message":"Token invalide ou expiré"})
      #on doit utliser try except pour attraper les erreurs  de tye except dans mon code
     except ValueError:
-          raise HTTPException(status_code=2,detail={"erreur":10,"message":"Le type de ton token n'est pas celui attendu par ma bdd "})
+          raise HTTPException(status_code=401,detail={"erreur":10,"message":"Le type de ton token n'est pas celui attendu par ma bdd "})
     except KeyError:
-          raise HTTPException(status_code=3,detail={"erreur":11,"message":"le sujet n'existe pas dans ce token"})
+          raise HTTPException(status_code=401,detail={"erreur":11,"message":"le sujet n'existe pas dans ce token"})
     #except  Exception:
           #raise HTTPException(status_code=403,detail={"erreur":12,"message":"erreur inconnu"})
      
