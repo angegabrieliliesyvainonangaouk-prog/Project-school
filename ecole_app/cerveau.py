@@ -392,11 +392,11 @@ def display(request:Request,classe_id:int,cookie:str=Cookie(...),db:Session=Depe
           #ça tombe bien la  rable classe possède une clé étrange fait à partir de la l'id de la table école 
           #la table student est composé de la clé étrange qui class_id qui provient de l'id des élément dans la table classe
      except jose.exceptions.JWTError:
-          raise HTTPException(status=403,detail={"erreur":14,"message":"Le token ou l'object envoyé ne correspond à ce qui a été donnée"})
+          raise HTTPException(status=1,detail={"erreur":14,"message":"Le token ou l'object envoyé ne correspond à ce qui a été donnée"})
 
 
      except Exception :
-          raise HTTPException(status_code=403,detail={"erreur":15,"message":"Accès non autorisé , erreur non antcipé mais mon serveur ne va pas crashé"})
+          raise HTTPException(status_code=2,detail={"erreur":15,"message":"Accès non autorisé , erreur non antcipé mais mon serveur ne va pas crashé"})
           #i'm going to block the personne who want to entry inside my application without the well token , #c'est unitile 
           #car la classe jwt.decode lève une erreur elle même et n'utilise pas python , donc une erreur qu'on ne peut pas empêcher 
           #si on me hacke de sortir une erreur 500 (bref à revoir )
@@ -405,7 +405,7 @@ def display(request:Request,classe_id:int,cookie:str=Cookie(...),db:Session=Depe
      #je prend les élèves de toutes la classe demandé par mon fetch
      obj_student=db.query(student).join(classe).filter(classe.ecole_id==value_id,student.classe_id==classe_id).all()
      if not obj_student :#j'anticipe si il le hacker passe mon token je veux lui compliquer un peu la tâche 
-          raise HTTPException(status_code=403,details={"erreur":16,"message":"l'identifiant de la classe choisie 'existe pas"})
+          raise HTTPException(status_code=3,details={"erreur":16,"message":"l'identifiant de la classe choisie 'existe pas"})
      return obj_student#je pourrai faire afficher tous les élèves de la classe sur le front end je préfère retouner tout l'objet car j'aurai besoin des id des élèves pour la table suivantes
 
 
