@@ -34,14 +34,14 @@ from datetime import datetime,timedelta
 
 
 
-def create_jwt(id:int,secret_key:str):#cette fonction va devenir la fonction de création d'un  cookies 
+def create_jwt(id:int,secret_keys:str):#cette fonction va devenir la fonction de création d'un  cookies 
      maintenant=datetime.utcnow()
      jwt_cre=jwt.encode({
           "sub":int(id),
           "iat":maintenant,#le temps à l'instant  présent
           "exp":maintenant + timedelta(hours=2)#la durée de vie de mon token avant qu'il redemande une  validation
      },
-     secret_key,#ma clé secrète  je dois empêcher toutes personnes mal intentionee de m'attaquer 
+     secret_keys,#ma clé secrète  je dois empêcher toutes personnes mal intentionee de m'attaquer 
      algorithm="HS256")
      #attribution du type de données envoyé dans le headers et creation d'un body dans l'object complex
      obj=Response(content=json.dumps({"status":"ok"}),media_type="application/json")
@@ -350,10 +350,11 @@ def display(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
           #il peut arriver que  token soit là mais sans le sujet et si je n'anticipe cette erreur en tant que hacer je peux jouer sur ça
           #pour balancer des requêtes et faire crasher mon code 
           if  id_ecole_token  is None:
-               raise HTTPException(status_code=401,details={"erreur":8,"message":"the token subject is absent"})
+               raise HTTPException(status_code=401,detail={"erreur":8,"message":"the token subject is absent"})
      # expiré peut survenir , ou que quequ'un envoie un token qui  est inconnu par ma fonction 
      #jwt.decode une error de type exception   qui fera crashé le code et cette exception n'est pas reconnu par fastapi d'où le crash 
     except jose.exceptions.ExpiredSignatureError:
+     #like i have had 500  servor response , then the cookie isn't expired if this class run really , it means the value fort the cookie is wrong 
      # cookie expired  we're not 403 no authorized
         # C'est ici que tombent les erreurs de token (expiré, faux, hacké)
           raise HTTPException(status_code=403, detail={"erreur":9,"message":"Token invalide ou expiré"})
