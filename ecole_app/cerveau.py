@@ -37,7 +37,7 @@ from datetime import datetime,timedelta
 def create_jwt(id:int,secret_keys:str):#cette fonction va devenir la fonction de création d'un  cookies 
      maintenant=datetime.utcnow()
      jwt_cre=jwt.encode({
-          "sub":int(id),
+          "sub":str(id),#because for the python-jose library the value expected must to be a string for this claims because this library is strict 
           "iat":maintenant,#le temps à l'instant  présent
           "exp":maintenant + timedelta(hours=2)#la durée de vie de mon token avant qu'il redemande une  validation
      },
@@ -346,7 +346,7 @@ def display(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
      #On  le fait car lorsuqe nous utilisons l'object complexe Cookie on extrait auto^matiquement le token du cookie sans moins effort
      #Donc actuellement dans le cookie il n'ya quele token qui ets selctionné
           paylod=jwt.decode(cookie,secret_keys,algorithms="HS256")
-          id_ecole_token=paylod["sub"]
+          id_ecole_token=int(paylod["sub"])#i need do the integer reconversion because, i'm going this subject to take all element for one school
           #il peut arriver que  token soit là mais sans le sujet et si je n'anticipe cette erreur en tant que hacer je peux jouer sur ça
           #pour balancer des requêtes et faire crasher mon code 
           if  id_ecole_token  is None:
