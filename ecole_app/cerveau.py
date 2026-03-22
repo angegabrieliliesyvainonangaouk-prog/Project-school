@@ -355,12 +355,12 @@ def display(request:Request,cookie:str=Cookie(None),db:Session=Depends(get)):
      #jwt.decode une error de type exception   qui fera crashé le code et cette exception n'est pas reconnu par fastapi d'où le crash 
     except jose.exceptions.JWTError:
         # C'est ici que tombent les erreurs de token (expiré, faux, hacké)
-          raise HTTPException(status_code=403, detail={"erreur":9,"message":"Token invalide ou expiré"})
+          raise HTTPException(status_code=1, detail={"erreur":9,"message":"Token invalide ou expiré"})
      #on doit utliser try except pour attraper les erreurs  de tye except dans mon code
     except ValueError:
-          raise HTTPException(status_code=402,detail={"erreur":10,"message":"Le type de ton token n'est pas celui attendu par ma bdd "})
+          raise HTTPException(status_code=2,detail={"erreur":10,"message":"Le type de ton token n'est pas celui attendu par ma bdd "})
     except KeyError:
-          raise HTTPException(status_code=401,detail={"erreur":11,"message":"le sujet n'existe pas dans ce token"})
+          raise HTTPException(status_code=3,detail={"erreur":11,"message":"le sujet n'existe pas dans ce token"})
     #except  Exception:
           #raise HTTPException(status_code=403,detail={"erreur":12,"message":"erreur inconnu"})
      
@@ -396,7 +396,7 @@ def display(request:Request,classe_id:int,cookie:str=Cookie(...),db:Session=Depe
 
 
      except Exception :
-          raise HTTPException(status_code=2,detail={"erreur":15,"message":"Accès non autorisé , erreur non antcipé mais mon serveur ne va pas crashé"})
+          raise HTTPException(status_code=4,detail={"erreur":15,"message":"Accès non autorisé , erreur non antcipé mais mon serveur ne va pas crashé"})
           #i'm going to block the personne who want to entry inside my application without the well token , #c'est unitile 
           #car la classe jwt.decode lève une erreur elle même et n'utilise pas python , donc une erreur qu'on ne peut pas empêcher 
           #si on me hacke de sortir une erreur 500 (bref à revoir )
@@ -405,7 +405,7 @@ def display(request:Request,classe_id:int,cookie:str=Cookie(...),db:Session=Depe
      #je prend les élèves de toutes la classe demandé par mon fetch
      obj_student=db.query(student).join(classe).filter(classe.ecole_id==value_id,student.classe_id==classe_id).all()
      if not obj_student :#j'anticipe si il le hacker passe mon token je veux lui compliquer un peu la tâche 
-          raise HTTPException(status_code=3,details={"erreur":16,"message":"l'identifiant de la classe choisie 'existe pas"})
+          raise HTTPException(status_code=5,details={"erreur":16,"message":"l'identifiant de la classe choisie 'existe pas"})
      return obj_student#je pourrai faire afficher tous les élèves de la classe sur le front end je préfère retouner tout l'objet car j'aurai besoin des id des élèves pour la table suivantes
 
 
