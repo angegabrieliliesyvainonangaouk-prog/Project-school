@@ -353,9 +353,10 @@ def display(request:Request,cookie:str=Cookie(...),db:Session=Depends(get)):
                raise KeyError
      # expiré peut survenir , ou que quequ'un envoie un token qui  est inconnu par ma fonction 
      #jwt.decode une error de type exception   qui fera crashé le code et cette exception n'est pas reconnu par fastapi d'où le crash 
-    except jose.exceptions.JWTError:
+    except jose.exceptions.ExpiredSignatureError:
+     # cookie expired  we're not 403 no authorized
         # C'est ici que tombent les erreurs de token (expiré, faux, hacké)
-          raise HTTPException(status_code=401, detail={"erreur":9,"message":"Token invalide ou expiré"})
+          raise HTTPException(status_code=403, detail={"erreur":9,"message":"Token invalide ou expiré"})
      #on doit utliser try except pour attraper les erreurs  de tye except dans mon code
     except ValueError:
           raise HTTPException(status_code=401,detail={"erreur":10,"message":"Le type de ton token n'est pas celui attendu par ma bdd "})
