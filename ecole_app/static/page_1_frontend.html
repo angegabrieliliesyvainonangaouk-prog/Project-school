@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acceuil</title>
+    `We going to force this page to work with the actual size screen device,we will force the browser to give the real screen size`
+        <meta name="viewport" content="interactive-widget:resizes-content,width:device-width,initial-scale:1">
+
+        `We're forcing the utf encodage`
+        <meta charset="UTF-8">
+        
+        <title>Accueil</title>
         </head>
 
 <body style="display:flex;
+    color:#333;
 
 height:100vh;
 align-items:center;
 gap:40px;
-background:radial-gradient(circle,green 0%,yellow 43%,blue 57%); 
+background-color:#f8f9fa;
 flex-direction:column;">
-<h1>Acceuil</h1>
+    `light grey`
+<h1>Accueil</h1>
     <a href="/static/login.html">
-        <button>
+        <button  class="button">
             connexion
         </button>
     </a>
     <a href="/static/creation_df.html">
-         <button>
+         <button class="button" >
             créationn de compte
         </button>
     </a>
-    
+    <style>
+        button{color:#2ecc71}
+        button:hover{color:#27ae60}
+    </style>
 </body>
 
 </html>
+
