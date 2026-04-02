@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    
-        <meta name="viewport" content="interactive-widget=resizes-content,width=device-width,initial-scale=1">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="interactive-widget=resize-widget,initial-scale=1,width=width-device">
 
-        
-        <meta charset="UTF-8">
-        <style>
-    
-        
-        button{background-color:#2ecc71;
-              color:white;}
-        
-        button:hover{background-color:#27ae60;
-                    color:white;}
+    <style>
 
-            @keyframes movecolor{ 0% {background-color:darkblue;}
-                       25% {background-color:darkblue;}
-                        50% {background-color:darkpurple;
-                        100% {background-color:darkred;}}
+        /*We going to create the animation for the body thanks the at-rules*/
+@keyframes changecolor{
+    0%{background-position:0% 50%;}
+    50%{background-position: 100% 50%;}
+    100%{background-position:50% 0%;}
+}
+        body{
+            /*the background size will be in two dimensions*/
+          
+            background:linear-gradient(135deg,cyan 20%, rebeccapurple 30% , royalblue 80%);
+            /*The order for the construction to the backround proprieties  is very importante*/
+              background-size:400% 400%;
+            display:flex;/*i want use  the nxt propriety*/
+            flex-direction:column;/*I want  to see the element inside this part like  one column*/
+            align-items:center;/*hoizontale axe*/
+            justify-content:center;/*verticale axe*/
+            /*We're launching the animation each n seconde for the infinity*/
+            animation: changecolor 10s infinite;
+            margin:0;/*I don't wnt to see my screen shake, with this valeur whathever the movement did by the user my screen will stay static*/
+            height:100vh;
+            width:100vw;/*even by the default this value is the same*/
+        }
 
-            /*We going to anime*/
-            body
-            {display:flex;
-                background-size: 400% 400%;
-             
-                   height:100vh;
-                 color:darkgrey;
-             justify-content:center;
-                align-items:center;
-                gap:40px;
+        /*Description for the div space */
+        div{
+            position:relative;/*With the relative value everything tht i put just after like the the style will be for this space, however with absolute i can't use the proprieties like justify-content and align-items*/
             
-                flex-direction:column"
-                 animation:movecolor 14s infinite;}
+            background-color:rebeccapurple ;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            border-radius:12px; /*Every edge bounding this area will turn into non-right angles.*/
+            gap:20px;
+            color:white;
+            width:50vw;/*For the half width */
+            padding:10px;/*I want a little space between the word inside  my host page and the  verticales bounds*/
+        }
+
+        /*style for each button*/
+
+        button{
+            background-color:purple;
+            color: white;}
+        button:hover{
+            background-color:darkblue;
+            color:white;}
             
-            title{ border:6px;
-                  color:grey;
-                  width:50%;
-                  paddin:3px;
-                  margin:3px;
-                  
-                  
-                 }
-            title:hover{border:6px;
-                  color:grey-black;
-                  width:50%;
-                  paddin:3px;
-                  margin:3px;
-                       }
+            
+            
+    
     </style>
-        <title >Accueil</title>
-        </head>
-
-<body> 
-
-<h1>Accueil</h1>
-    <a href="/static/login.html">
+    <title>Accueil</title>
+</head>
+    <body>
+        <div>
+            <h1>ACCUEIL</h1>
+            <button>
+                <a href="/static/login.html">
+                    CONNEXION
+            </a></button>
         <button>
-            connexion
+            <a href="/static/creation_df.html">
+                CREATION DE COMPTE</a>
         </button>
-    </a>
-    <a href="/static/creation_df.html">
-         <button  >
-            créationn de compte
-        </button>
-    </a>
-    
-</body>
+            
+        </div>
+    </body>
 
 </html>
-
-
-
-
-
-
-
