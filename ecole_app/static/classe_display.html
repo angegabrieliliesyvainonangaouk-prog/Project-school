@@ -1,24 +1,70 @@
 <!DOCTYPE html>
 <html>
 <!objectif fare un tableau dont  chacune des classes sur l'horizontal correspond à une classe  de l'école>
-<header>
-    JP
-</header>
+<head>
+    <title>STELYSE ALERTE</title>
+
+    <!Before we going to chanfge the browser metadata>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,interactive-widget=widget,width=device-width">
+    
+
+    <style>
+        /*We going to create the animtion thanks the at-rule keyframes*/
+        @keyframes colorchange {
+            /* This animation is calculated based on n percent of the total duration. I am applying a pull force to the object's boundary at coordinates (x, y) with an angle s*/
+                0%{background-position:0% 50%;}
+                50%{background-position:100% 50%;}
+                80%{background-position:50% 100%;}}
+            /*not putting the  position at the maximal time , i won't see the direction change abruptly*/
+
+        body{
+            background-size:500% 500%;/*It means the background has 5 times the size of user device screen,this is a square*/
+            background:linear-gradient(135deg,#6050DC 25%,navy 35%,turquoise 70%);/*The standard deviation are the swicth periods*/
+            nimation:colorchange 13s infinite;
+            display:flex;
+            flex-direction:column;
+            height:100vh;/*The body  will take the all screen seen byb the user*/
+            justify-content:center;/*flex-direction:column this propriety represents the  vertical axe*/
+            align-items:center;/*horizontle axe*/
+            margin:0;/*i don't want the scroll whathever the sense*/
+        }
+
+
+        tbody{
+            color:grey;
+            padding:40px;
+            width:50vw;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        border-radius:30%;}
+
+        /*we remove the default color gave by the a tag*/
+        a{
+        color:grey;
+        text-decoration:none;/*To remove the underligne */
+        }
+        
+    </style>
+</head>
 <body>
-    <a href="/static/message_spent.html", border="3" style="display:flex;flex-direction:column;align-items:left;justify-content:top">Récapitulatif dépense</a>
+    <a href="/static/message_spent.html">Récapitulatif dépense</a>
     <!Dans mon body il  y aura le tableau des classes de  l'école>
+    <main>
     <table>
         <!Je dis que je mets comme titre  à mon tableau nom des classe et ce titre et sur une ligne >
         <tr>
-            <th>nom de la classe</th>
+            <th>NOM DES CLASSES</th>
               
         </tr>
         <!The tag  will  serve me is like variable is tbody>
-        <tbody id="liste_classes" style="Background:linear-gradient(  green 33%, yellow 33%, blue 34%)"></tbody>
-
+        <tbody id="liste_classes"></tbody>
 
         
+        
     </table>
+    </main>
     <script> 
     //It is the javascript method , this is the function who is predefined by javascript ,  i needn't put the instruction
         objectif=document.getElementById("liste_classes");
