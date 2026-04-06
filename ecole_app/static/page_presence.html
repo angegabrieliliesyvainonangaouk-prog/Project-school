@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        page_presence
+       <title> page_presence</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="interactive-widget=widget,width=device-width, initial-scale=1">
+        <style>
+            body{display:flex;
+                 flex-direction:column;
+                 justify-content:center;
+                 align-items:center;
+                 background-color:navy;
+                 gap:15px;
+                 color:grey;
+                }
+                
+        </style>
+    
     </head>
-    <body style="display:flex;flex-direction:column;justify-content:top;align-items:left;height:100vh">
+    <body>
         <form id="appel_presence">
         
         <input type="date" id="date" name="date_jour" style="display:flex;flex-direction:column;justify-content:left" required>
@@ -112,8 +126,7 @@
             window.onload=jonction;
            // Maintenant le resultat  on doit faire  enregistrer  dans la bdd , on recupére les valeur scomme un formulaire
            //Nous allons récuperer  les valeurs sur le front end pour les envoyer au serveur
-         document.getElementById("appel_present").addEventListener("submit",async function
-                  (declencheur)
+         document.getElementById("appel_present").addEventListener("submit",async function(declencheur)
                 {
                     declencheur.preventDefault();
                     //Je vais finalement  récupérer  les choix par les utilisateurs sous data 
