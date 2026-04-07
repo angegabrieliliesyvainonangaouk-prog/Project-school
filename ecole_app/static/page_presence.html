@@ -23,14 +23,14 @@
         <input type="date" id="date" name="date_jour" style="display:flex;flex-direction:column;justify-content:left" required>
         <select id="choix" onchange="jonction()" name="horaires" required><!Nous voulons faire afficher des selecteurs spécifiques pour certains selecteurs>
            <!We don't put  the name attribut because the only  who  it is nesseary, it's the select  tag > 
-            <option id="APCD" value="Appel_1">Appel premier cours (Début)</option>
-             <option id="APCF" value="Appel_2">Appel premier cours (Fin)</option>
-             <option id="ADCD" value="Appel_3">Appel deuxième cours (Début)</option>
-                <option id="ADCF" value="Appel_4">Appel deuxième cours (Fin)</option>
-                <option id="ATCD" value="Appel_5">Appel troisième cours (Début)</option>
-             <option id="ATCF" value="Appel_6">Appel troisième cours (Fin)</option>
-              <option id="AQCD" value="Appel_7">Appel quatrième cours (Début)</option>
-               <option id="AQCF" value="Appel_8">Appel quatrième cours (Fin)</option>
+            <option id="APCD" value="debut">Appel premier cours (Début)</option>
+             <option id="APCF" value="fin">Appel premier cours (Fin)</option>
+             <option id="ADCD" value="debut">Appel deuxième cours (Début)</option>
+                <option id="ADCF" value="fin">Appel deuxième cours (Fin)</option>
+                <option id="ATCD" value="debut">Appel troisième cours (Début)</option>
+             <option id="ATCF" value="fin">Appel troisième cours (Fin)</option>
+              <option id="AQCD" value="debut">Appel quatrième cours (Début)</option>
+               <option id="AQCF" value="fin">Appel quatrième cours (Fin)</option>
         </select>
         <h1>Page d'appel</h1 style ="background-color:blue">
             <table>
@@ -71,23 +71,19 @@
         //Appel_debut(present/retard)
         //appel_fin(présent/absent)
         const selecteur=document.getElementById("choix");//i took the element inside my html page 
-        function selection (selecteur){
-            if (selecteur.value=="fin"){
-                    return `<td>
+        function selection (selecteur){if (selecteur.value=="fin"){return `
                         <select name="status">
                             <option>present</option>
                             <option>absent</option>
                         </select>
-                    </td>
+                 
                    ` ;}
-                if (selecteur.value=="debut"){
-                    return `
-                        <td>
+                if (selecteur.value=="debut"){return `
                             <select name="status">
                                 <option>present</option>
                                 <option>retard</option>
                             </select>
-                        </td>
+                       
                         `;
 
                 }
@@ -97,23 +93,18 @@
         
         async function jonction(){//je doute qu ce soit optiale en vittesse  parceque j'ai utilisé id de la balise pre
         
-            const api_get= await fetch(`/display_student_classe/${classe_id}`,{
-                method:"GET",
+            const api_get= await fetch(`/display_student_classe/${classe_id}`,{method:"GET",
                credentials:"include"// j'autorise l'envoie du cookie qui nest dans mon navigateur à mon serveur 
             });
             // retour de ma requête envoyé vers mon serveur , il est en json à cause de la requête HTTP donc je vais le mettre en object , ou dictionnaire pour mon 
             //javascript 
             const reponse_get= await api_get.json();//c'est bon il est  en object utilisable par le front end 
            
-            // cette object contient toute les ligne de 
             // cree une page vide qui va me servir d'initialisation
             cible.innerHTML="";//j'initailise la page vide 
            
             //je vais utiliser l'object eu du serveur repose_get qui me donne toutes les élèves de la classe que j'ai demandé une par une 
-            reponse_get.forEach( (i,index)=>//IL  va parcourir toutes les ligens de l'objet qui contient la liste des élèves de la classe
-            // pour  chaque ligne de cette liste je dois créer une ligne avec le de l'élève sans supprimer la ligne préceédente 
-            {
-                    cible.innerHTML+=`<tr>
+            reponse_get.forEach( (i,index)=>{cible.innerHTML+=`<tr>
                         <td>${index+1}</td>
                         <td>${i.name_student}</td>
                         <!je crée l'input invisible poru stocker l'identifaint de chaque élève et qu'elle soit envoyé à mon serveur>
