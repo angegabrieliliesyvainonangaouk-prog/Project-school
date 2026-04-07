@@ -15,13 +15,13 @@
             /* This animation is calculated based on n percent of the total duration. I am applying a pull force to the object's boundary at coordinates (x, y) with an angle s*/
                 0%{background-position:0% 50%;}
                 50%{background-position:100% 50%;}
-                85%{background-position:50% 100%;}}
+                100%{background-position:50% 100%;}}
             /*not putting the  position at the maximal time , i won't see the direction change abruptly*/
 
         body{
-            background-size:500% 500%;/*It means the background has 5 times the size of user device screen,this is a square*/
+            background-size:400% 400%;/*It means the background has 5 times the size of user device screen,this is a square*/
             background:linear-gradient(135deg,#6050DC 25%,navy 35%,turquoise 70%);/*The standard deviation are the swicth periods*/
-            nimation:colorchange 10s infinite;
+            animation:colorchange 10s infinite;
             display:flex;
             flex-direction:column;
             height:100vh;/*The body  will take the all screen seen byb the user*/
@@ -33,19 +33,22 @@
 
         tbody{
             color:grey;
-            padding:40px;
+            padding:30px;
             width:50vw;
             display:flex;
             flex-direction:column;
             align-items:center;
             background-color:#AEC6CF;
-        border-radius:30%;}
+        border-radius:15%;}
 
         /*we remove the default color gave by the a tag*/
         a{
         color:grey;
-        text-decoration:none;/*To remove the underligne */
+        text-decoration:none;/*To remove the underline */
         }
+        a:hover{position:absolue;
+                color:grey;
+                text-decoraton:none}
         
     </style>
 </head>
