@@ -14,8 +14,9 @@
 }
         body{
             /*the background size will be in two dimensions*/
+            /*navy #000080 ; turqoise #40E0D0 ;pastel blue #AEC6CF,rebeccablue*/
           
-            background:linear-gradient(135deg,cyan 20%, rebeccapurple 30% , royalblue 80%);
+            background:linear-gradient(135deg,cyan 20%, #40E0D0 30% , #000080 80%);
             /*The order for the construction to the backround proprieties  is very importante*/
               background-size:400% 400%;
             display:flex;/*i want use  the nxt propriety*/
@@ -33,14 +34,14 @@
         div{
             position:relative;/*With the relative value everything tht i put just after like the the style will be for this space, however with absolute i can't use the proprieties like justify-content and align-items*/
             
-            background-color:rebeccapurple ;
+            background-color:#AEC6CF;
             display:flex;
             flex-direction:column;
             align-items:center;
             justify-content:center;
-            border-radius:12px; /*Every edge bounding this area will turn into non-right angles.*/
+            border-radius:50%; /*Every edge bounding this area will turn into non-right angles.*/
             gap:20px;
-            color:white;
+            color:grey;
             width:50vw;/*For the half width */
             padding:10px;/*I want a little space between the word inside  my host page and the  verticales bounds*/
         }
@@ -49,10 +50,12 @@
 
         button{
             background-color:purple;
-            color: white;}
+            color: grey;
+        text-decoration:none}
         button:hover{
             background-color:darkblue;
-            color:white;}
+            color:grey;
+            text-decoration:none}
             
             
             
