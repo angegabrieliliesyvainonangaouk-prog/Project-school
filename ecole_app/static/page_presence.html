@@ -5,11 +5,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="interactive-widget=widget,width=device-width, initial-scale=1">
         <style>
-            body{display:flex;
+
+            #part1{display:flex;
+                   position:relative;
+                   gap:20px;
+                   border:5px;
+                   background-color:white;
+                  color:grey}
+           
+            #part2{display:flex;
+                   position:relative;
                  flex-direction:column;
                  justify-content:center;
                  align-items:center;
-                 background-color:navy;
+                 background-color:#EDC6CF;
                  gap:15px;
                  color:grey;
                 }
@@ -18,6 +27,8 @@
     
     </head>
     <body>
+
+        <div id="part1">
         <form id="appel_presence">
         
         <input type="date" id="date" name="date_jour" style="display:flex;flex-direction:column;justify-content:left" required>
@@ -32,6 +43,10 @@
               <option id="AQCD" value="debut">Appel quatrième cours (Début)</option>
                <option id="AQCF" value="fin">Appel quatrième cours (Fin)</option>
         </select>
+        </div>
+
+        <div id="part2">
+            
         <h1>Page d'appel</h1 style ="background-color:blue">
             <table>
                 <!put an attribut inside these tags is useless>
@@ -51,6 +66,8 @@
 </table>
 <button type="submit">valider</button>
 </form>
+        </div>
+        
     </body>
     <script>
        // le havascript est plus rapide que le html je mets ça à l'intérieur de les élements pour pouvoir faire patienter un peu le js
@@ -104,12 +121,15 @@
             cible.innerHTML="";//j'initailise la page vide 
            
             //je vais utiliser l'object eu du serveur repose_get qui me donne toutes les élèves de la classe que j'ai demandé une par une 
-            reponse_get.forEach( (i,index)=>{cible.innerHTML+=`<tr>
+            reponse_get.forEach( (i,index)=>{cible.innerHTML+=`<style>selection{background-color:white;}
+            selection:click{background-color:green;
+            color:grey;}
+            <tr>
                         <td>${index+1}</td>
                         <td>${i.name_student}</td>
                         <!je crée l'input invisible poru stocker l'identifaint de chaque élève et qu'elle soit envoyé à mon serveur>
                         <input type="hidden" name="identifiant_eleve" value="${i.id}">
-                        <td>${selection(selecteur)}</td>
+                        <td id="selection">${selection(selecteur)}</td>
                                 </tr>
                         `;
                        
