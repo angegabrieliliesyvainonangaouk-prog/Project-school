@@ -118,10 +118,10 @@
             const reponse_get= await api_get.json();//c'est bon il est  en object utilisable par le front end 
            
             // cree une page vide qui va me servir d'initialisation
-            cible.innerHTML="";//j'initailise la page vide 
+            let variabl="";//j'initailise la page vide 
            
             //je vais utiliser l'object eu du serveur repose_get qui me donne toutes les élèves de la classe que j'ai demandé une par une 
-            reponse_get.forEach( (i,index)=>{cible.innerHTML+=`<style>selection{background-color:white;}
+            reponse_get.forEach( (i,index)=>{variabl+=`<style>selection{background-color:white;}
             selection:click{background-color:green;
             color:grey;}
             </style>
@@ -135,6 +135,8 @@
                         `;
                        
             });}
+        //i launch the html draw one few an i avoid the big using user's processor
+            cible.innerHTML=variabl;
             window.onload=jonction;
            // Maintenant le resultat  on doit faire  enregistrer  dans la bdd , on recupére les valeur scomme un formulaire
            //Nous allons récuperer  les valeurs sur le front end pour les envoyer au serveur
