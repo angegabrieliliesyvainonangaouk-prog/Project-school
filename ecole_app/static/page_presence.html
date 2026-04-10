@@ -122,21 +122,20 @@
            
             //je vais utiliser l'object eu du serveur repose_get qui me donne toutes les élèves de la classe que j'ai demandé une par une 
             reponse_get.forEach( (i,index)=>{variabl+=`<style>selection{background-color:white;}
-            selection:click{background-color:green;
-            color:grey;}
-            </style>
-            <tr>
+                                                selection:click{background-color:green;
+                                                                color:grey;}
+                                                </style>
+                                                <tr>
                         <td>${index+1}</td>
                         <td>${i.name_student}</td>
                         <!je crée l'input invisible poru stocker l'identifaint de chaque élève et qu'elle soit envoyé à mon serveur>
                         <input type="hidden" name="identifiant_eleve" value="${i.id}">
                         <td id="selection">${selection(selecteur)}</td>
                                 </tr>
-                        `;
-                       
-            });}
-        //i launch the html draw one few an i avoid the big using user's processor
+                        `;})//i launch the html draw one few an i avoid the big using user's processor
             cible.innerHTML=variabl;
+                ;}
+        
             window.onload=jonction;
            // Maintenant le resultat  on doit faire  enregistrer  dans la bdd , on recupére les valeur scomme un formulaire
            //Nous allons récuperer  les valeurs sur le front end pour les envoyer au serveur
