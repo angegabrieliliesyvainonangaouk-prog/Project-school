@@ -1,4 +1,4 @@
-
+(English version )
 Stelyse Lydia
 1. Overview
 
@@ -59,7 +59,7 @@ The system provides concrete solutions to assist both parents and teachers:
 
 
 
-
+(french version)
 
 
 
